@@ -20,8 +20,8 @@ class Config(object):
     BOT_OWNER = int(os.environ.get("BOT_OWNER", 1445283714))
 
     START_TEXT = """
-Hi Bro, I am TELSA Video Merge Bot!
-I can Merge Multiple Videos/FILES into Single Video
+HI BRO, I AM TELSA VIDEO MERGE BOT
+
 MADE BY @TELSABOTS
 """
     CAPTION = "Video Merged by @{}\n\nMade by @TELSABOTS"
