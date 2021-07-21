@@ -56,11 +56,11 @@ async def start_handler(bot: Client, m: Message):
         quote=True,
         reply_markup=InlineKeyboardMarkup(
             [
-                [InlineKeyboardButton("Developer - @AbirHasan2005", url="https://t.me/AbirHasan2005")],
-                [InlineKeyboardButton("Support Group", url="https://t.me/linux_repo"),
-                 InlineKeyboardButton("Bots Channel", url="https://t.me/Discovery_Updates")],
-                [InlineKeyboardButton("Open Settings", callback_data="openSettings")],
-                [InlineKeyboardButton("Close", callback_data="closeMeh")]
+                [InlineKeyboardButton("🧑🏼‍💻DEV🧑🏼‍💻 ", url="https://t.me/alluaddict")],
+                [InlineKeyboardButton("🎬Group🎬", url="https://t.me/filimsmovie"),
+                 InlineKeyboardButton("📢Channel📢", url="https://t.me/telsabots")],
+                [InlineKeyboardButton("🛠Settings🛠", callback_data="openSettings")],
+                [InlineKeyboardButton("🔐Close🔐", callback_data="closeMeh")]
             ]
         )
     )
@@ -77,7 +77,7 @@ async def videos_handler(bot: Client, m: Message):
         await m.reply_text("File Name Not Found!")
         return
     if media.file_name.rsplit(".", 1)[-1].lower() not in ["mp4", "mkv", "webm"]:
-        await m.reply_text("This Video Format not Allowed!\nOnly send MP4 or MKV or WEBM.", quote=True)
+        await m.reply_text("This  Format not allowed😢\nOnly send MP4 or MKV or WEBM.😊", quote=True)
         return
     if QueueDB.get(m.from_user.id, None) is None:
         FormtDB.update({m.from_user.id: media.file_name.rsplit(".", 1)[-1].lower()})
@@ -86,14 +86,14 @@ async def videos_handler(bot: Client, m: Message):
         return
     input_ = f"{Config.DOWN_PATH}/{m.from_user.id}/input.txt"
     if os.path.exists(input_):
-        await m.reply_text("Sorry Unkil,\nAlready One in Progress!\nDon't Spam Plox.")
+        await m.reply_text("Sorry Bruh,\nNow I am Working in Another Process!\nDon't Disturb Me😴.")
         return
     isInGap, sleepTime = await CheckTimeGap(m.from_user.id)
     if isInGap is True:
-        await m.reply_text(f"Sorry Sir,\nNo Flooding Allowed!\nSend Video After `{str(sleepTime)}s` !!", quote=True)
+        await m.reply_text(f"Sorry Bruh,\nDon't Flood 🤯!\nOnly Send FILE/VIDEO After `{str(sleepTime)}s` Now I am Sleeping😴 !!", quote=True)
     else:
-        editable = await m.reply_text("Please Wait ...", quote=True)
-        MessageText = "Okay,\nNow Send Me Next Video or Press **Merge Now** Button!"
+        editable = await m.reply_text("Plz Wait🤓 ...", quote=True)
+        MessageText = "Okay,\nNow Send Me Another Video/file or Press **Merge Now** Button To start Merging🤓"
         if QueueDB.get(m.from_user.id, None) is None:
             QueueDB.update({m.from_user.id: []})
         if (len(QueueDB.get(m.from_user.id)) >= 0) and (len(QueueDB.get(m.from_user.id)) <= Config.MAX_VIDEOS):
@@ -104,9 +104,9 @@ async def videos_handler(bot: Client, m: Message):
                 FormtDB.update({m.from_user.id: media.file_name.rsplit(".", 1)[-1].lower()})
             await asyncio.sleep(Config.TIME_GAP)
             if len(QueueDB.get(m.from_user.id)) == Config.MAX_VIDEOS:
-                MessageText = "Okay Unkil, Now Just Press **Merge Now** Button Plox!"
+                MessageText = "Okay bruh, Now Just Press **Merge Now** Button !"
             markup = await MakeButtons(bot, m, QueueDB)
-            await editable.edit(text="Your Video Added to Queue!")
+            await editable.edit(text="Your Video/file Added to Queue😇")
             reply_ = await m.reply_text(
                 text=MessageText,
                 reply_markup=InlineKeyboardMarkup(markup),
@@ -116,7 +116,7 @@ async def videos_handler(bot: Client, m: Message):
         elif len(QueueDB.get(m.from_user.id)) > Config.MAX_VIDEOS:
             markup = await MakeButtons(bot, m, QueueDB)
             await editable.edit(
-                text=f"Sorry Unkil,\nMax {str(Config.MAX_VIDEOS)} Videos Allowed to Merge Together!\nPress **Merge Now** Button Now!",
+                text=f"Sorry bruh,\nMax {str(Config.MAX_VIDEOS)} videos/files Allowed to Merge Together🤯!\nPress **Merge Now** Button Now!",
                 reply_markup=InlineKeyboardMarkup(markup)
             )
 
@@ -127,14 +127,14 @@ async def photo_handler(bot: Client, m: Message):
     Fsub = await ForceSub(bot, m)
     if Fsub == 400:
         return
-    editable = await m.reply_text("Saving Thumbnail to Database ...", quote=True)
+    editable = await m.reply_text("Wait Saving Your Thumbnail 😴 ...", quote=True)
     await db.set_thumbnail(m.from_user.id, thumbnail=m.photo.file_id)
     await editable.edit(
-        text="Thumbnail Saved Successfully!",
+        text="🖼 Thumbnail ✅Saved",
         reply_markup=InlineKeyboardMarkup(
             [
-                [InlineKeyboardButton("Show Thumbnail", callback_data="showThumbnail")],
-                [InlineKeyboardButton("Delete Thumbnail", callback_data="deleteThumbnail")]
+                [InlineKeyboardButton("👀Show Thumbnail🖼", callback_data="showThumbnail")],
+                [InlineKeyboardButton("🗑Delete Thumbnail🖼", callback_data="deleteThumbnail")]
             ]
         )
     )
@@ -166,7 +166,7 @@ async def _status(_, m: Message):
     disk_usage = psutil.disk_usage('/').percent
     total_users = await db.total_users_count()
     await m.reply_text(
-        text=f"**Total Disk Space:** {total} \n**Used Space:** {used}({disk_usage}%) \n**Free Space:** {free} \n**CPU Usage:** {cpu_usage}% \n**RAM Usage:** {ram_usage}%\n\n**Total Users in DB:** `{total_users}`",
+        text=f"**😎Total Disk Space😎:** {total} \n**🥺Used Space🥺:** {used}({disk_usage}%) \n**🤩Free Space🤩:** {free} \n**😬CPU Usage😬:** {cpu_usage}% \n**😐RAM Usage😐:** {ram_usage}%\n\n**🥳Total Users 🥳:** `{total_users}`",
         parse_mode="Markdown",
         quote=True
     )
@@ -176,13 +176,13 @@ async def _status(_, m: Message):
 async def check_handler(bot: Client, m: Message):
     if len(m.command) == 2:
         editable = await m.reply_text(
-            text="Checking User Details ..."
+            text="Checking User Details 🧐"
         )
         user = await bot.get_users(user_ids=int(m.command[1]))
-        detail_text = f"**Name:** [{user.first_name}](tg://user?id={str(user.id)})\n" \
-                      f"**Username:** `{user.username}`\n" \
-                      f"**Upload as Doc:** `{await db.get_upload_as_doc(id=int(m.command[1]))}`\n" \
-                      f"**Generate Screenshots:** `{await db.get_generate_ss(id=int(m.command[1]))}`\n"
+        detail_text = f"**📖Name📖:** [{user.first_name}](tg://user?id={str(user.id)})\n" \
+                      f"**📄Username📄:** `{user.username}`\n" \
+                      f"**Upload as Doc📂:** `{await db.get_upload_as_doc(id=int(m.command[1]))}`\n" \
+                      f"**📸Screenshots📸:** `{await db.get_generate_ss(id=int(m.command[1]))}`\n"
         await editable.edit(
             text=detail_text,
             parse_mode="Markdown",
@@ -205,7 +205,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             await cb.message.delete(True)
             return
         if len(list_message_ids) < 2:
-            await cb.answer("Only One Video You Sent for Merging!", show_alert=True)
+            await cb.answer("😢Only One Video You Sent for Merging😢", show_alert=True)
             await cb.message.delete(True)
             return
         if not os.path.exists(f"{Config.DOWN_PATH}/{cb.from_user.id}/"):
@@ -214,7 +214,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             media = i.video or i.document
             try:
                 await cb.message.edit(
-                    text=f"Downloading `{media.file_name}` ..."
+                    text=f"Downloading📥 `{media.file_name}` ..."
                 )
             except MessageNotModified:
                 QueueDB.get(cb.from_user.id).remove(i.message_id)
@@ -229,20 +229,20 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                     file_name=f"{Config.DOWN_PATH}/{cb.from_user.id}/{i.message_id}/",
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        "Downloading ...",
+                        "Downloading 📥...",
                         cb.message,
                         c_time
                     )
                 )
             except Exception as downloadErr:
-                print(f"Failed to Download File!\nError: {downloadErr}")
+                print(f"😢Failed to Download File!\nError: {downloadErr}")
                 QueueDB.get(cb.from_user.id).remove(i.message_id)
-                await cb.message.edit("File Skipped!")
+                await cb.message.edit("😔File Skipped😔")
                 await asyncio.sleep(3)
                 continue
             metadata = extractMetadata(createParser(file_dl_path))
             try:
-                if metadata.has("duration"):
+                if metadata.has("⏰Duration⏰"):
                     duration += metadata.get('duration').seconds
                 vid_list.append(f"file '{file_dl_path}'")
             except:
@@ -253,9 +253,9 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                 return
         vid_list = list(set(vid_list))
         if (len(vid_list) < 2) and (len(vid_list) > 0):
-            await cb.message.edit("There only One Video in Queue!\nMaybe you sent same video multiple times.")
+            await cb.message.edit("There only One Video in Queue📊!\nMaybe you sent same video multiple times.")
             return
-        await cb.message.edit("Trying to Merge Videos ...")
+        await cb.message.edit("Trying to Merge 🤯...")
         with open(input_, 'w') as _list:
             _list.write("\n".join(vid_list))
         merged_vid_path = await MergeVideo(
@@ -266,37 +266,37 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         )
         if merged_vid_path is None:
             await cb.message.edit(
-                text="Failed to Merge Video!"
+                text="😬Failed to Merge 😬!"
             )
             await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
             QueueDB.update({cb.from_user.id: []})
             FormtDB.update({cb.from_user.id: None})
             return
-        await cb.message.edit("Successfully Merged Video!")
+        await cb.message.edit("✅Successfully Merged")
         await asyncio.sleep(Config.TIME_GAP)
         file_size = os.path.getsize(merged_vid_path)
         if int(file_size) > 2097152000:
-            await cb.message.edit(f"Sorry Sir,\n\nFile Size Become {humanbytes(file_size)} !!\nI can't Upload to Telegram!\n\nSo Now Uploading to Streamtape ...")
+            await cb.message.edit(f"Sorry Sir,\n\nFile Size Become {humanbytes(file_size)} !!\nI can't Upload to Telegram😟!\n\nSo Now Uploading to Streamtape🤩 ...")
             await UploadToStreamtape(file=merged_vid_path, editable=cb.message, file_size=file_size)
             await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
             QueueDB.update({cb.from_user.id: []})
             FormtDB.update({cb.from_user.id: None})
             return
         await cb.message.edit(
-            text="Do you like to rename file?\nChoose a Button from below:",
+            text="Do you like to rename file?:",
             reply_markup=InlineKeyboardMarkup(
                 [
-                    [InlineKeyboardButton("Rename File", callback_data="renameFile_Yes")],
-                    [InlineKeyboardButton("Keep Default", callback_data="renameFile_No")]
+                    [InlineKeyboardButton("📝Rename File📝", callback_data="renameFile_Yes")],
+                    [InlineKeyboardButton("📃 Default📃", callback_data="renameFile_No")]
                 ]
             )
         )
     elif "cancelProcess" in cb.data:
-        await cb.message.edit("Trying to Delete Working DIR ...")
+        await cb.message.edit("Trying to Delete🗑 ...")
         await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
         QueueDB.update({cb.from_user.id: []})
         FormtDB.update({cb.from_user.id: None})
-        await cb.message.edit("Successfully Cancelled!")
+        await cb.message.edit("✅Done Cancelled⭕️")
     elif cb.data.startswith("showFileName_"):
         message_ = await bot.get_messages(chat_id=cb.message.chat.id, message_ids=int(cb.data.split("_", 1)[-1]))
         try:
@@ -306,12 +306,12 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                 reply_to_message_id=message_.message_id,
                 reply_markup=InlineKeyboardMarkup(
                     [
-                        [InlineKeyboardButton("Remove File", callback_data=f"removeFile_{str(message_.message_id)}")]
+                        [InlineKeyboardButton("🚫Remove File📂", callback_data=f"removeFile_{str(message_.message_id)}")]
                     ]
                 )
             )
         except FloodWait as e:
-            await cb.answer("Don't Spam Unkil!", show_alert=True)
+            await cb.answer("Don't Spam Bruh!", show_alert=True)
             await asyncio.sleep(e.x)
         except:
             media = message_.video or message_.document
@@ -327,18 +327,18 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                 user = await bot.get_chat_member(chat_id=(int(Config.UPDATES_CHANNEL) if Config.UPDATES_CHANNEL.startswith("-100") else Config.UPDATES_CHANNEL), user_id=cb.message.chat.id)
                 if user.status == "kicked":
                     await cb.message.edit(
-                        text="Sorry Sir, You are Banned to use me. Contact my [Support Group](https://t.me/linux_repo).",
+                        text="Sorry Bruh, You are Banned to use me. Contact my [🧑🏼‍💻DEV🧑🏼‍💻](https://t.me/alluaddict).",
                         parse_mode="markdown",
                         disable_web_page_preview=True
                     )
                     return
             except UserNotParticipant:
                 await cb.message.edit(
-                    text="**You Still Didn't Join ☹️, Please Join My Updates Channel to use this Bot!**\n\nDue to Overload, Only Channel Subscribers can use the Bot!",
+                    text="**Join My Updates Channel to use ME!**\n\n Only  Subscribers can use the Bot!",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
-                                InlineKeyboardButton("🤖 Join Updates Channel", url=invite_link.invite_link)
+                                InlineKeyboardButton("💫 Join Updates Channel💫", url=invite_link.invite_link)
                             ],
                             [
                                 InlineKeyboardButton("🔄 Refresh 🔄", callback_data="refreshFsub")
@@ -350,7 +350,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                 return
             except Exception:
                 await cb.message.edit(
-                    text="Something went Wrong. Contact my [Support Group](https://t.me/linux_repo).",
+                    text="Something went Wrong. Contact my [🧑🏼‍💻DEV🧑🏼‍💻](https://t.me/alluaddict).",
                     parse_mode="markdown",
                     disable_web_page_preview=True
                 )
@@ -358,27 +358,27 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         await cb.message.edit(
             text=Config.START_TEXT,
             parse_mode="Markdown",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Developer - @AbirHasan2005", url="https://t.me/AbirHasan2005"), InlineKeyboardButton("Support Group", url="https://t.me/linux_repo")], [InlineKeyboardButton("Bots Channel", url="https://t.me/Discovery_Updates")]]),
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🧑🏼‍💻Dev🧑🏼‍💻", url="https://t.me/telsabots"), InlineKeyboardButton("🎬Group🎬", url="https://t.me/filimsmovie")], [InlineKeyboardButton("🤩Channel🤩", url="https://t.me/telsabots")]]),
             disable_web_page_preview=True
         )
     elif "showThumbnail" in cb.data:
         db_thumbnail = await db.get_thumbnail(cb.from_user.id)
         if db_thumbnail is not None:
-            await cb.answer("Sending Thumbnail ...", show_alert=True)
+            await cb.answer("Sending 🖼Thumbnail ...", show_alert=True)
             await bot.send_photo(
                 chat_id=cb.message.chat.id,
                 photo=db_thumbnail,
                 reply_markup=InlineKeyboardMarkup(
                     [
-                        [InlineKeyboardButton("Delete Thumbnail", callback_data="deleteThumbnail")]
+                        [InlineKeyboardButton("🗑Delete 🖼Thumbnail", callback_data="deleteThumbnail")]
                     ]
                 )
             )
         else:
-            await cb.answer("No Thumbnail Found for you in Database!")
+            await cb.answer("No 🖼Thumbnail Found ")
     elif "deleteThumbnail" in cb.data:
         await db.set_thumbnail(cb.from_user.id, thumbnail=None)
-        await cb.message.edit("Thumbnail Deleted from Database!")
+        await cb.message.edit("🖼Thumbnail 🗑Deleted !")
     elif "triggerUploadMode" in cb.data:
         upload_as_doc = await db.get_upload_as_doc(cb.from_user.id)
         if upload_as_doc is False:
@@ -390,24 +390,24 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         try:
             markup = await MakeButtons(bot, cb.message, QueueDB)
             await cb.message.edit(
-                text="Here are the saved files list in your queue:",
+                text="Files list in your queue📊:",
                 reply_markup=InlineKeyboardMarkup(markup)
             )
         except ValueError:
-            await cb.answer("Your Queue Empty Unkil!", show_alert=True)
+            await cb.answer("Bruh, Your Queue is  Empty☺️", show_alert=True)
     elif cb.data.startswith("removeFile_"):
         if (QueueDB.get(cb.from_user.id, None) is not None) or (QueueDB.get(cb.from_user.id) != []):
             QueueDB.get(cb.from_user.id).remove(int(cb.data.split("_", 1)[-1]))
             await cb.message.edit(
-                text="File removed from queue!",
+                text="Files 🚫removed from queue",
                 reply_markup=InlineKeyboardMarkup(
                     [
-                        [InlineKeyboardButton("Go Back", callback_data="openSettings")]
+                        [InlineKeyboardButton("🔙 Back🔙", callback_data="openSettings")]
                     ]
                 )
             )
         else:
-            await cb.answer("Sorry Unkil, Your Queue is Empty!", show_alert=True)
+            await cb.answer("Sorry Bruh, Your Queue is Empty☺️", show_alert=True)
     elif "triggerGenSS" in cb.data:
         generate_ss = await db.get_generate_ss(cb.from_user.id)
         if generate_ss is True:
@@ -426,11 +426,11 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         await OpenSettings(cb.message, cb.from_user.id)
     elif cb.data.startswith("renameFile_"):
         if (QueueDB.get(cb.from_user.id, None) is None) or (QueueDB.get(cb.from_user.id) == []):
-            await cb.answer("Sorry Unkil, Your Queue is Empty!", show_alert=True)
+            await cb.answer("Sorry Bruh, Your Queue is Empty☺️", show_alert=True)
             return
         merged_vid_path = f"{Config.DOWN_PATH}/{str(cb.from_user.id)}/[@AbirHasan2005]_Merged.{FormtDB.get(cb.from_user.id).lower()}"
         if cb.data.split("_", 1)[-1] == "Yes":
-            await cb.message.edit("Okay Unkil,\nSend me new file name!")
+            await cb.message.edit("Okay Bruh,\nSend me new file name📝")
             try:
                 ask_: Message = await bot.listen(cb.message.chat.id, timeout=300)
                 if ask_.text:
@@ -441,11 +441,11 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                     await asyncio.sleep(2)
                     merged_vid_path = new_file_name
             except TimeoutError:
-                await cb.message.edit("Time Up!\nNow I will upload file with default name.")
+                await cb.message.edit("Ok ✅Done\nNow I will upload file with default name🗒.")
                 await asyncio.sleep(Config.TIME_GAP)
             except:
                 pass
-        await cb.message.edit("Extracting Video Data ...")
+        await cb.message.edit("Extracting Data😴 ...")
         duration = 1
         width = 100
         height = 100
@@ -461,7 +461,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
             QueueDB.update({cb.from_user.id: []})
             FormtDB.update({cb.from_user.id: None})
-            await cb.message.edit("The Merged Video Corrupted!\nTry Again Later.")
+            await cb.message.edit("The Merged Video Corrupted!\nTry Again Later😟.")
             return
         video_thumbnail = None
         db_thumbnail = await db.get_thumbnail(cb.from_user.id)
@@ -515,10 +515,10 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             generate_ss_dir = f"{Config.DOWN_PATH}/{str(cb.from_user.id)}"
             list_images = await generate_screen_shots(merged_vid_path, generate_ss_dir, 9, duration)
             if list_images is None:
-                await cb.message.edit("Failed to get Screenshots!")
+                await cb.message.edit("😢Failed to get Screenshots📸!")
                 await asyncio.sleep(Config.TIME_GAP)
             else:
-                await cb.message.edit("Generated Screenshots Successfully!\nNow Uploading ...")
+                await cb.message.edit("Generated Screenshots 📸\nNow Uploading ...")
                 photo_album = list()
                 if list_images is not None:
                     i = 0
@@ -534,7 +534,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                     media=photo_album
                 )
         if ((await db.get_generate_sample_video(cb.from_user.id)) is True) and (duration >= 15):
-            await cb.message.edit("Now Generating Sample Video ...")
+            await cb.message.edit("Now Generating Sample Video 📹")
             sample_vid_dir = f"{Config.DOWN_PATH}/{cb.from_user.id}/"
             ttl = int(duration*10 / 100)
             sample_video = await cult_small_video(
@@ -545,10 +545,10 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                 format_=FormtDB.get(cb.from_user.id)
             )
             if sample_video is None:
-                await cb.message.edit("Failed to Generate Sample Video!")
+                await cb.message.edit("😢Failed to Generate Sample Video📹")
                 await asyncio.sleep(Config.TIME_GAP)
             else:
-                await cb.message.edit("Successfully Generated Sample Video!\nNow Uploading ...")
+                await cb.message.edit("Successfully Generated Sample Video📹\nNow Uploading ...")
                 sam_vid_duration = 5
                 sam_vid_width = 100
                 sam_vid_height = 100
@@ -561,7 +561,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                     if metadata.has("height"):
                         sam_vid_height = metadata.get("height")
                 except:
-                    await cb.message.edit("Sample Video File Corrupted!")
+                    await cb.message.edit("Sample Video📹 File Corrupted!")
                     await asyncio.sleep(Config.TIME_GAP)
                 try:
                     c_time = time.time()
@@ -575,15 +575,15 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                         caption=caption,
                         progress=progress_for_pyrogram,
                         progress_args=(
-                            "Uploading Sample Video ...",
+                            "Uploading Sample Video 📹...",
                             cb.message,
                             c_time,
                         )
                     )
                 except Exception as sam_vid_err:
-                    print(f"Got Error While Trying to Upload Sample File:\n{sam_vid_err}")
+                    print(f"😢Got Error While Trying to Upload Sample File:\n{sam_vid_err}")
                     try:
-                        await cb.message.edit("Failed to Upload Sample Video!")
+                        await cb.message.edit("😢Failed to Upload Sample Video📹")
                         await asyncio.sleep(Config.TIME_GAP)
                     except:
                         pass
