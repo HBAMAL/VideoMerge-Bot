@@ -49,7 +49,7 @@ async def start_handler(bot: Client, m: Message):
     await AddUserToDatabase(bot, m)
     Fsub = await ForceSub(bot, m)
     if Fsub == 400:
-        return
+        returnzz
     await m.reply_text(
         text=Config.START_TEXT,
         disable_web_page_preview=True,
@@ -86,11 +86,11 @@ async def videos_handler(bot: Client, m: Message):
         return
     input_ = f"{Config.DOWN_PATH}/{m.from_user.id}/input.txt"
     if os.path.exists(input_):
-        await m.reply_text("Sorry Bruh,\nNow I am Working in Another Process!\nDon't Disturb Me😴.")
+        await m.reply_text("Sorry Bruh,\nNow I am Working in Another Process!\nDon't Disturb Me 😴.")
         return
     isInGap, sleepTime = await CheckTimeGap(m.from_user.id)
     if isInGap is True:
-        await m.reply_text(f"Sorry Bruh,\nDon't Flood 🤯!\nOnly Send FILE/VIDEO After `{str(sleepTime)}s` Now I am Sleeping😴 !!", quote=True)
+        await m.reply_text(f"Sorry Bruh,\nDon't Flood 🤯!\nOnly Send FILE/VIDEO After `{str(sleepTime)}s` Now I am Sleeping 😴 !!", quote=True)
     else:
         editable = await m.reply_text("Plz Wait🤓 ...", quote=True)
         MessageText = "Okay,\nNow Send Me Another Video/file or Press **Merge Now** Button To start Merging🤓"
@@ -106,7 +106,7 @@ async def videos_handler(bot: Client, m: Message):
             if len(QueueDB.get(m.from_user.id)) == Config.MAX_VIDEOS:
                 MessageText = "Okay bruh, Now Just Press **Merge Now** Button !"
             markup = await MakeButtons(bot, m, QueueDB)
-            await editable.edit(text="Your Video/file Added to Queue😇")
+            await editable.edit(text="Your Video/file Added to Queue 😇")
             reply_ = await m.reply_text(
                 text=MessageText,
                 reply_markup=InlineKeyboardMarkup(markup),
@@ -116,7 +116,7 @@ async def videos_handler(bot: Client, m: Message):
         elif len(QueueDB.get(m.from_user.id)) > Config.MAX_VIDEOS:
             markup = await MakeButtons(bot, m, QueueDB)
             await editable.edit(
-                text=f"Sorry bruh,\nMax {str(Config.MAX_VIDEOS)} videos/files Allowed to Merge Together🤯!\nPress **Merge Now** Button Now!",
+                text=f"Sorry bruh,\nMax {str(Config.MAX_VIDEOS)} videos/files Allowed to Merge Together 🤯!\nPress **Merge Now** Button Now!",
                 reply_markup=InlineKeyboardMarkup(markup)
             )
 
@@ -205,7 +205,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             await cb.message.delete(True)
             return
         if len(list_message_ids) < 2:
-            await cb.answer("😢Only One Video You Sent for Merging😢", show_alert=True)
+            await cb.answer("😢Only One Video You Sent for Merging", show_alert=True)
             await cb.message.delete(True)
             return
         if not os.path.exists(f"{Config.DOWN_PATH}/{cb.from_user.id}/"):
@@ -214,7 +214,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             media = i.video or i.document
             try:
                 await cb.message.edit(
-                    text=f"Downloading📥 `{media.file_name}` ..."
+                    text=f"Downloading  `{media.file_name}` ..."
                 )
             except MessageNotModified:
                 QueueDB.get(cb.from_user.id).remove(i.message_id)
@@ -229,7 +229,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                     file_name=f"{Config.DOWN_PATH}/{cb.from_user.id}/{i.message_id}/",
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        "Downloading 📥...",
+                        "Downloading...",
                         cb.message,
                         c_time
                     )
@@ -237,7 +237,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             except Exception as downloadErr:
                 print(f"😢Failed to Download File!\nError: {downloadErr}")
                 QueueDB.get(cb.from_user.id).remove(i.message_id)
-                await cb.message.edit("😔File Skipped😔")
+                await cb.message.edit("😔File Skipped")
                 await asyncio.sleep(3)
                 continue
             metadata = extractMetadata(createParser(file_dl_path))
@@ -253,7 +253,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
                 return
         vid_list = list(set(vid_list))
         if (len(vid_list) < 2) and (len(vid_list) > 0):
-            await cb.message.edit("There only One Video in Queue📊!\nMaybe you sent same video multiple times.")
+            await cb.message.edit("There only One Video in Queue 📊!\nMaybe you sent same video multiple times.")
             return
         await cb.message.edit("Trying to Merge 🤯...")
         with open(input_, 'w') as _list:
@@ -266,7 +266,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         )
         if merged_vid_path is None:
             await cb.message.edit(
-                text="😬Failed to Merge 😬!"
+                text="😬 Failed to Merge"
             )
             await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
             QueueDB.update({cb.from_user.id: []})
@@ -276,7 +276,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
         await asyncio.sleep(Config.TIME_GAP)
         file_size = os.path.getsize(merged_vid_path)
         if int(file_size) > 2097152000:
-            await cb.message.edit(f"Sorry Sir,\n\nFile Size Become {humanbytes(file_size)} !!\nI can't Upload to Telegram😟!\n\nSo Now Uploading to Streamtape🤩 ...")
+            await cb.message.edit(f"Sorry Sir,\n\nFile Size Become {humanbytes(file_size)} !!\nI can't Upload to Telegram 😟!\n\nSo Now Uploading to Streamtape 🤩 ...")
             await UploadToStreamtape(file=merged_vid_path, editable=cb.message, file_size=file_size)
             await delete_all(root=f"{Config.DOWN_PATH}/{cb.from_user.id}/")
             QueueDB.update({cb.from_user.id: []})
